@@ -1,0 +1,92 @@
+class woosuk {
+
+
+  woosuk(float ix, float iy, float id, float ivx, float ivy) {
+    x = ix;
+    y = iy;
+    d = id;
+    vx = ivx;
+    vy = ivy;
+  }
+  woosuk(float ix, float iy, float id) {
+    x = ix;
+    y = iy;
+    d = id;
+    vx = random(1000)/100;
+    vy = random(1000)/100;
+  }
+  void move() {
+    x += vx;
+    y+= vy;
+    if (x<0 || x > width) vx = -vx;
+    if (y<0 || y > height) vy = -vy;
+  }
+  void collision(duck aa) {
+    float dx = x - aa.x;
+    float dy = y - aa.y;
+
+    float dist = sqrt(dx*dx+dy*dy);
+
+    if (dist < 25) {
+      float collisionAngle = atan2(dx, dy);
+      float angle1 = atan2(vy, vx);
+      float angle2 = atan2(aa.vy, aa.vx);
+
+      float speed1 = sqrt(vx * vx + vy * vy);
+      float speed2 = sqrt(aa.vx * aa.vx + aa.vy * aa.vy);
+
+      float newSpeed1 = speed2;
+      float newSpeed2 = speed1;
+
+      vx = newSpeed1 * cos(collisionAngle + angle1);
+      vy = newSpeed1 * sin(collisionAngle + angle1);
+
+      aa.vx = newSpeed2 * cos(collisionAngle + angle2);
+      aa.vy = newSpeed2 * sin(collisionAngle + angle2);
+    }
+  }
+  void collision(woosuk aa) {
+    float dx = x - aa.x;
+    float dy = y - aa.y;
+
+    float dist = sqrt(dx*dx+dy*dy);
+
+    if (dist < 25) {
+      float collisionAngle = atan2(dx, dy);
+      float angle1 = atan2(vy, vx);
+      float angle2 = atan2(aa.vy, aa.vx);
+
+      float speed1 = sqrt(vx * vx + vy * vy);
+      float speed2 = sqrt(aa.vx * aa.vx + aa.vy * aa.vy);
+
+      float newSpeed1 = speed2;
+      float newSpeed2 = speed1;
+
+      vx = newSpeed1 * cos(collisionAngle + angle1);
+      vy = newSpeed1 * sin(collisionAngle + angle1);
+
+      aa.vx = newSpeed2 * cos(collisionAngle + angle2);
+      aa.vy = newSpeed2 * sin(collisionAngle + angle2);
+    }
+  }
+
+  float x, y, d, vx, vy;
+
+  void display() {
+    fill(100, 0, 200);
+    circle(x, y, 10*d);
+    fill(200, 200, 10);
+    circle(x-2*d, y-2*d, 2*d);
+    circle(x+2*d, y-2*d, 2*d);
+    fill(100, 200, 10);
+    circle(x, y, d);
+    circle(x-2*d, y-2*d, d/2);
+    circle(x+2*d, y-2*d, d/2);
+    arc(x, y+2*d, 4*d, 4*d, 0, PI);
+    line(x-2*d, y+2*d, x+2*d, y+2*d);
+    line(x-5*d, y-6*d, x-5*d, y);
+    line(x-5*d, y-6*d, x, y-5*d);
+    line(x, y-5*d, x+5*d, y-6*d);
+    line(x+5*d, y-6*d, x+5*d, y);
+  }
+}
